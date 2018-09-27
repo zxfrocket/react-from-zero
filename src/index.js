@@ -11,10 +11,10 @@ class ADS_Title extends React.Component{
     this.props.delete(this.props.id);
   }
 
-  static defaultProps(){
+  static get defaultProps(){
     return {
       name: 'No Country'
-    }
+    };
   }
 
   render() {
