@@ -7,6 +7,12 @@ const ADS_Title = React.createClass({
     this.props.delete(this.props.id);
   },
 
+  getDefaultProps(){
+    return {
+      name: 'No Country'
+    }
+  },
+
   render() {
     let elem =
       <h1 className='test' style={{ backgroundColor: 'red' }}>
@@ -43,7 +49,7 @@ const ADS_Container = React.createClass({
 
   addOneLine(){
     this.state.items.push({
-      name: 'UK',
+      //name: 'UK',
       arr: ['B.Tim', 'G.Andy', 'C.Joe'],
       text: 'zzzz',
       id: uuid.v4()
@@ -88,3 +94,4 @@ ReactDOM.render(
 // )
 
 //console.log(<h1>hello</h1>);
+

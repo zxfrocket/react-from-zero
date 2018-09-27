@@ -20,6 +20,10 @@
 
 .App-intro {
   font-size: large;
+  -webkit-transform: 1s;
+  -o-transform: 1s;
+  -moz-transform: 1s;
+  -ms-transform: 1s;
 }
 
 @keyframes App-logo-spin {
