@@ -2,16 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import uuid from 'uuid';
 
-const ADS_Title = React.createClass({
+class ADS_Title extends React.Component{
+  constructor(props){
+    super(props)
+  }
+
   deleteItem(){
     this.props.delete(this.props.id);
-  },
+  }
 
-  getDefaultProps(){
+  static defaultProps(){
     return {
       name: 'No Country'
     }
-  },
+  }
 
   render() {
     let elem =
@@ -21,15 +25,16 @@ const ADS_Title = React.createClass({
           this.props.list.map((item, index) => <span key={index}>{item}</span>)
         }
         <span>{this.props.children}</span>
-        <button onClick={this.deleteItem}>delete</button>
+        <button onClick={this.deleteItem.bind(this)}>delete</button>
       </h1>;
     return elem;
   }
-});
+}
 
-const ADS_Container = React.createClass({
-  getInitialState() {
-    return {
+class ADS_Container extends React.Component{
+  constructor(props){
+    super(props)
+    this.state = {
       items: [
         {
           name: 'USA',
@@ -44,8 +49,8 @@ const ADS_Container = React.createClass({
           id: uuid.v4()
         }
       ]
-    }
-  },
+    };
+  }
 
   addOneLine(){
     this.state.items.push({
@@ -55,43 +60,32 @@ const ADS_Container = React.createClass({
       id: uuid.v4()
     });
     this.forceUpdate();
-  },
+  }
 
   deleteOneLine(id){
     const idx = this.state.items.findIndex(item => item.id === id);
     this.state.items.splice(idx, 1);
     this.forceUpdate();
-  },
+  }
 
   render() {
     let elem =
       <div>
-        <div key={uuid.v4()}><button onClick={this.addOneLine}>addOneLine</button></div>
+        <div key={uuid.v4()}><button onClick={this.addOneLine.bind(this)}>addOneLine</button></div>
         {
           this.state.items.map(item =>
             <div key={item.id}>
-              <ADS_Title id={item.id} name={item.name} list={item.arr} delete={this.deleteOneLine}>{item.text}</ADS_Title>
+              <ADS_Title id={item.id} name={item.name} list={item.arr} delete={this.deleteOneLine.bind(this)}>{item.text}</ADS_Title>
             </div>
           )
         }
       </div>;
     return elem;
   }
-});
+}
 
 ReactDOM.render(
   <ADS_Container />,
   document.querySelector('#root')
 );
-// {
-//   tagName: 'h1',
-//   attr: null,
-//   children: ['hello']
-// }
-// ReactDOM.render(
-//   React.createElement('h1', null, ['hello']),
-//   document.querySelector('#root')
-// )
-
-//console.log(<h1>hello</h1>);
 
