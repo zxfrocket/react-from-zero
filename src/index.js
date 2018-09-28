@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import uuid from 'uuid';
+import {CSSTransition} from 'react-transition-group';
 
 const ADS_Title = React.createClass({
   deleteItem(){
@@ -70,7 +71,9 @@ const ADS_Container = React.createClass({
         {
           this.state.items.map(item =>
             <div key={item.id}>
-              <ADS_Title id={item.id} name={item.name} list={item.arr} delete={this.deleteOneLine}>{item.text}</ADS_Title>
+              <CSSTransition transitionName="example" transitionEnterTimeout="500" transitionLeaveTimeout="500">
+                <ADS_Title key={item.id} id={item.id} name={item.name} list={item.arr} delete={this.deleteOneLine}>{item.text}</ADS_Title>
+              </CSSTransition>
             </div>
           )
         }
@@ -83,15 +86,4 @@ ReactDOM.render(
   <ADS_Container />,
   document.querySelector('#root')
 );
-// {
-//   tagName: 'h1',
-//   attr: null,
-//   children: ['hello']
-// }
-// ReactDOM.render(
-//   React.createElement('h1', null, ['hello']),
-//   document.querySelector('#root')
-// )
-
-//console.log(<h1>hello</h1>);
 
