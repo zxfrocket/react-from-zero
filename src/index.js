@@ -44,7 +44,8 @@ const ADS_Container = React.createClass({
           text: 'yyyy',
           id: uuid.v4()
         }
-      ]
+      ],
+      newLine: false
     }
   },
 
@@ -55,7 +56,10 @@ const ADS_Container = React.createClass({
       text: 'zzzz',
       id: uuid.v4()
     });
-    this.forceUpdate();
+    this.newLine = true;
+    this.setState({
+      newLine: true
+    });
   },
 
   deleteOneLine(id){
@@ -71,7 +75,11 @@ const ADS_Container = React.createClass({
         {
           this.state.items.map(item =>
             <div key={item.id}>
-              <CSSTransition transitionName="example" transitionEnterTimeout="500" transitionLeaveTimeout="500">
+              <CSSTransition in={this.state.newLine} timeout={500} classNames="line" onExited={() => {
+                this.setState({
+                  newLine: false,
+                });
+              }}>
                 <ADS_Title key={item.id} id={item.id} name={item.name} list={item.arr} delete={this.deleteOneLine}>{item.text}</ADS_Title>
               </CSSTransition>
             </div>
