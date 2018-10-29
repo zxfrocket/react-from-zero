@@ -5,12 +5,32 @@ const Reflux = require('reflux')
 
 class App extends Component {
   componentDidMount(){
-    const action = Reflux.createAction()
+    const action = Reflux.createAction(
+      {
+        click(){
+          action.trigger('self way')
+        },
+        preEmit(data){
+          return 'preEmit-' + data 
+        },
+        shouldEmit(data){
+          return true
+        }
+      }
+    )
 
-    action.listen(data => console.log(`this is log 1 ${data}`))
+    //action.listen(data => console.log(`this is log 1 ${data}`))
     action.listen(data => console.log(`this is log 2 ${data}`))
 
-    action.trigger('leo')
+    action.trigger('sync way')
+
+    action.triggerAsync('async way')
+
+    action('defaut way')
+
+    action.click()
+
+    console.log('------------end---------------')
   }
 
   render() {
