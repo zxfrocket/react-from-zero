@@ -5,66 +5,71 @@ const Reflux = require('reflux')
 
 class App extends Component {
   componentDidMount(){
-    const action = Reflux.createAction(
+    const action1 = 
       {
         click(){
-          action.trigger('self way')
+          this.trigger('self way')
         },
         preEmit(data){
           return 'preEmit-' + data 
         },
         shouldEmit(data){
           return true
-        },
+        }
+      }
+
+    const action2 = 
+      {
         asyncResult: true,
         children: ['clickme']
       }
-    )
+
+    const actions = Reflux.createActions({action1, action2})
 
     //action.listen(data => console.log(`this is log 1 ${data}`))
-    action.listen(data => console.log(`this is log 2 ${data}`))
+    actions.action1.listen(data => console.log(`this is log 2 ${data}`))
 
-    action.trigger('sync way')
+    actions.action1.trigger('sync way')
 
-    action.triggerAsync('async way')
+    actions.action1.triggerAsync('async way')
 
-    action('defaut way')
-
-    action.click()
+    actions.action1.click()
 
     //for async result
-    action.listen(data => {
+    actions.action2.listen(data => {
       console.log('async result yes' + data)
       setTimeout(() => {
-        action.completed();
+        actions.action2.completed();
       }, 200)
     })
     
-    action.listen(data => {
+    actions.action2.listen(data => {
       console.log('async result no' + data)
       setTimeout(() => {
-        action.failed();
+        actions.action2.failed();
       }, 200)
     })
     
-    action.listen(data => {
+    actions.action2.listen(data => {
       console.log('async result self' + data)
       setTimeout(() => {
-        action.clickme();
+        actions.action2.clickme();
       }, 200)
     })
 
-    action.completed.listen(() => {
+    actions.action2.completed.listen(() => {
       console.log('complete')
     })
 
-    action.failed.listen(() => {
+    actions.action2.failed.listen(() => {
       console.log('failed')
     })
 
-    action.clickme.listen(() => {
+    actions.action2.clickme.listen(() => {
       console.log('clickme')
     })
+
+    actions.action2.trigger('sync result')
 
     console.log('------------end---------------')
   }
