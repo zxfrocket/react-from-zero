@@ -15,7 +15,9 @@ class App extends Component {
         },
         shouldEmit(data){
           return true
-        }
+        },
+        asyncResult: true,
+        children: ['clickme']
       }
     )
 
@@ -29,6 +31,40 @@ class App extends Component {
     action('defaut way')
 
     action.click()
+
+    //for async result
+    action.listen(data => {
+      console.log('async result yes' + data)
+      setTimeout(() => {
+        action.completed();
+      }, 200)
+    })
+    
+    action.listen(data => {
+      console.log('async result no' + data)
+      setTimeout(() => {
+        action.failed();
+      }, 200)
+    })
+    
+    action.listen(data => {
+      console.log('async result self' + data)
+      setTimeout(() => {
+        action.clickme();
+      }, 200)
+    })
+
+    action.completed.listen(() => {
+      console.log('complete')
+    })
+
+    action.failed.listen(() => {
+      console.log('failed')
+    })
+
+    action.clickme.listen(() => {
+      console.log('clickme')
+    })
 
     console.log('------------end---------------')
   }
