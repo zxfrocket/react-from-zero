@@ -69,9 +69,40 @@ class App extends Component {
       console.log('clickme')
     })
 
-    actions.action2.trigger('sync result')
+    actions.action2.trigger('sync result1')
 
     console.log('------------end---------------')
+
+    //===================================for store=================================
+    const action = Reflux.createAction()
+    const store = Reflux.createStore({
+      
+      init(){
+        this.data = {count: 0}
+        this.listenTo(action, this.onClick)
+        this.listenTo(actions.action2.clickme, this.onClickAlways)
+      },
+
+      onClick(type){ 
+        if(type === 'clickme'){
+          ++this.data.count
+          this.trigger(this.data)
+        }
+      },
+
+      onClickAlways(){ 
+        ++this.data.count
+        this.trigger(this.data)
+      }
+    })
+
+    store.listen((data) => {
+      console.log(`on Click ${data.count} times`)
+    })
+
+    action.trigger('clickme')
+    action.trigger('clickme')
+    action.trigger('others')
   }
 
   render() {
