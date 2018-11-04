@@ -76,11 +76,13 @@ class App extends Component {
     //===================================for store=================================
     const action = Reflux.createAction()
     const store = Reflux.createStore({
+
+      listenables: actions,
       
       init(){
         this.data = {count: 0}
         this.listenTo(action, this.onClick)
-        this.listenTo(actions.action2.clickme, this.onClickAlways)
+        //this.listenToMany(actions)
       },
 
       onClick(type){ 
@@ -93,7 +95,27 @@ class App extends Component {
       onClickAlways(){ 
         ++this.data.count
         this.trigger(this.data)
-      }
+      },
+
+      onAction1(){
+        console.log(`onAction1`)
+      },
+
+      onAction2(){
+        console.log(`onAconAction2tion1`)
+      },
+
+      onAction2Completed(){
+        console.log(`onAction2Completed`)
+      },
+
+      onAction2Failed(){
+        console.log(`onAction2Failed`)
+      },
+
+      onAction2Clickme(){
+        console.log(`onAction2Clickme`)
+      },
     })
 
     store.listen((data) => {
@@ -104,6 +126,7 @@ class App extends Component {
     action.trigger('clickme')
     action.trigger('others')
   }
+  
 
   render() {
     return (
