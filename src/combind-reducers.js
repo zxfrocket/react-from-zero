@@ -39,4 +39,9 @@ let action = {
   data: 'leo'
 }
 
+let action2 = {
+  type: 'b',
+  data: 'zhangsan'
+}
+
 store.dispatch(action)
